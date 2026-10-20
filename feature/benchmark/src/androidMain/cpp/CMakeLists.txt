@@ -22,6 +22,7 @@ target_link_libraries(
     PRIVATE
     log
     vulkan
+    c++_shared
 )
 
 target_link_options(
