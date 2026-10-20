@@ -61,6 +61,7 @@ target_link_libraries(
     log
     vulkan
     z
+    c++_shared
 )
 
 target_link_options(
