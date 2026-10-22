@@ -9,6 +9,8 @@ import com.shifthackz.aisdv1.domain.entity.HiresConfig
 import com.shifthackz.aisdv1.domain.entity.Scheduler
 import com.shifthackz.aisdv1.domain.entity.SdxlBackend
 import com.shifthackz.aisdv1.domain.entity.ServerSource
+import com.shifthackz.aisdv1.feature.sdxl.runtime.StableDiffusionCppBackend
+import com.shifthackz.aisdv1.domain.entity.StableDiffusionCppSampler
 import org.junit.Assert
 import org.junit.Test
 
@@ -107,6 +109,66 @@ class TextToImageStateTest {
         ).mapToPayload()
 
         Assert.assertEquals(SdxlBackend.VULKAN, payload.sdxlBackend)
+    }
+
+    @Test
+    fun `given SDXL state with selected sampler, expected payload preserves stable sampler key`() {
+        val payload = TextToImageState(
+            mode = ServerSource.LOCAL_STABLE_DIFFUSION_CPP,
+            selectedSdxlSampler = StableDiffusionCppSampler.LCM,
+        ).mapToPayload()
+
+        Assert.assertEquals("lcm", payload.sdxlSampler)
+    }
+
+    @Test
+    fun `given non SDXL state, sampler payload uses Euler default`() {
+        val payload = TextToImageState(
+            mode = ServerSource.AUTOMATIC1111,
+            selectedSdxlSampler = StableDiffusionCppSampler.LCM,
+        ).mapToPayload()
+
+        Assert.assertEquals("euler", payload.sdxlSampler)
+    }
+
+    @Test
+    fun `given removed sampler key, parser safely falls back to Euler`() {
+        Assert.assertEquals(
+            StableDiffusionCppSampler.EULER,
+            StableDiffusionCppSampler.parse("removed_sampler"),
+        )
+    }
+
+    @Test
+    fun `given native sampler contract, exposes all supported methods with stable ids`() {
+        Assert.assertEquals(
+            listOf(
+                "euler_a",
+                "euler",
+                "heun",
+                "dpm2",
+                "dpmpp2s_a",
+                "dpmpp2m",
+                "ipndm",
+                "lcm",
+                "ddim_trailing",
+                "tcd",
+            ),
+            StableDiffusionCppSampler.entries.map(StableDiffusionCppSampler::key),
+        )
+        Assert.assertEquals((0..9).toList(), StableDiffusionCppSampler.entries.map { it.nativeId })
+    }
+
+    @Test
+    fun `given backend enum expansion, native ids of existing modes remain stable`() {
+        Assert.assertEquals(0, SdxlBackend.AUTO.nativeId)
+        Assert.assertEquals(1, SdxlBackend.CPU.nativeId)
+        Assert.assertEquals(2, SdxlBackend.OPEN_CL.nativeId)
+        Assert.assertEquals(3, SdxlBackend.VULKAN.nativeId)
+        Assert.assertEquals(4, SdxlBackend.VULKAN_ONLY.nativeId)
+        Assert.assertEquals(SdxlBackend.VULKAN, SdxlBackend.parse("vulkan"))
+        Assert.assertEquals(SdxlBackend.VULKAN_ONLY, SdxlBackend.parse("VULKAN_ONLY"))
+        Assert.assertEquals((0..4).toList(), StableDiffusionCppBackend.entries.map { it.nativeId })
     }
 
     @Test

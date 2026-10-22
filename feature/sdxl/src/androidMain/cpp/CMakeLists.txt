@@ -109,6 +109,38 @@ if(SDAI_SDCPP_ENABLE_VULKAN)
     include_directories(SYSTEM ${SDAI_SDCPP_SPIRV_HEADERS_DIR}/include)
     set(Vulkan_INCLUDE_DIR ${SDAI_SDCPP_VULKAN_HEADERS_DIR}/include CACHE PATH "" FORCE)
 
+    if(CMAKE_HOST_WIN32)
+        set(_sdai_vc_tools_dir "")
+        if(DEFINED ENV{VCToolsInstallDir})
+            file(TO_CMAKE_PATH "$ENV{VCToolsInstallDir}" _sdai_vc_tools_dir)
+        endif()
+
+        if(NOT _sdai_vc_tools_dir)
+            file(GLOB _sdai_vc_tool_roots
+                "C:/Program Files/Microsoft Visual Studio/*/VC/Tools/MSVC/*"
+                "C:/Program Files (x86)/Microsoft Visual Studio/*/VC/Tools/MSVC/*"
+                "C:/Program Files/Microsoft Visual Studio/*/Professional/VC/Tools/MSVC/*"
+                "C:/Program Files/Microsoft Visual Studio/*/Enterprise/VC/Tools/MSVC/*"
+                "C:/Program Files/Microsoft Visual Studio/*/Community/VC/Tools/MSVC/*"
+                "C:/Program Files (x86)/Microsoft Visual Studio/*/Professional/VC/Tools/MSVC/*"
+                "C:/Program Files (x86)/Microsoft Visual Studio/*/Enterprise/VC/Tools/MSVC/*"
+                "C:/Program Files (x86)/Microsoft Visual Studio/*/Community/VC/Tools/MSVC/*"
+            )
+            foreach(_sdai_vc_tool_root IN LISTS _sdai_vc_tool_roots)
+                if(EXISTS "${_sdai_vc_tool_root}/bin/Hostx64/x64/cl.exe")
+                    set(_sdai_vc_tools_dir "${_sdai_vc_tool_root}")
+                    break()
+                endif()
+            endforeach()
+        endif()
+
+        if(_sdai_vc_tools_dir)
+            set(GGML_VULKAN_SHADERS_GEN_TOOLCHAIN
+                "${CMAKE_CURRENT_LIST_DIR}/windows-host-toolchain.cmake"
+            )
+        endif()
+    endif()
+
     if(NOT Vulkan_GLSLC_EXECUTABLE OR Vulkan_GLSLC_EXECUTABLE MATCHES "NOTFOUND$")
         message(FATAL_ERROR "SDAI stable-diffusion.cpp Vulkan backend requires glslc. Install Vulkan SDK or use an Android NDK with shader-tools/glslc.")
     endif()
@@ -127,6 +159,69 @@ file(
     DESTINATION ${stable_diffusion_cpp_SOURCE_DIR}
     PATTERN ".git" EXCLUDE
 )
+
+# Work around GGML Vulkan descriptor-set count overflow.
+# Patch the build-local copy; leave the pinned submodules unchanged.
+if(SDAI_SDCPP_ENABLE_VULKAN)
+    set(SDAI_GGML_VULKAN_SOURCE
+        "${stable_diffusion_cpp_SOURCE_DIR}/ggml/src/ggml-vulkan/ggml-vulkan.cpp"
+    )
+    if(NOT EXISTS "${SDAI_GGML_VULKAN_SOURCE}")
+        message(FATAL_ERROR
+            "GGML Vulkan CEIL_DIV fix could not locate '${SDAI_GGML_VULKAN_SOURCE}'. "
+            "Check the pinned stable-diffusion.cpp vendor source layout."
+        )
+    endif()
+
+    file(READ "${SDAI_GGML_VULKAN_SOURCE}" SDAI_VULKAN_CONTENT)
+
+    set(SDAI_CEIL_DIV_OLD
+        "#define CEIL_DIV(M, N) (((M) + (N)-1) / (N))"
+    )
+    set(SDAI_CEIL_DIV_NEW
+        "#define CEIL_DIV(M, N) (((M) / (N)) + (((M) % (N)) != 0))"
+    )
+
+    string(REGEX MATCHALL "#define CEIL_DIV\\(M, N\\)" SDAI_CEIL_DIV_DEFINITIONS
+        "${SDAI_VULKAN_CONTENT}"
+    )
+    list(LENGTH SDAI_CEIL_DIV_DEFINITIONS SDAI_CEIL_DIV_DEFINITION_COUNT)
+    if(NOT SDAI_CEIL_DIV_DEFINITION_COUNT EQUAL 1)
+        message(FATAL_ERROR
+            "Expected exactly one GGML Vulkan CEIL_DIV definition in "
+            "'${SDAI_GGML_VULKAN_SOURCE}', found ${SDAI_CEIL_DIV_DEFINITION_COUNT}."
+        )
+    endif()
+
+    string(FIND "${SDAI_VULKAN_CONTENT}" "${SDAI_CEIL_DIV_OLD}" SDAI_CEIL_DIV_OLD_POSITION)
+    string(FIND "${SDAI_VULKAN_CONTENT}" "${SDAI_CEIL_DIV_NEW}" SDAI_CEIL_DIV_NEW_POSITION)
+    if(SDAI_CEIL_DIV_OLD_POSITION GREATER_EQUAL 0)
+        string(REPLACE
+            "${SDAI_CEIL_DIV_OLD}"
+            "${SDAI_CEIL_DIV_NEW}"
+            SDAI_VULKAN_PATCHED
+            "${SDAI_VULKAN_CONTENT}"
+        )
+        string(FIND "${SDAI_VULKAN_PATCHED}" "${SDAI_CEIL_DIV_OLD}" SDAI_CEIL_DIV_OLD_REMAINS)
+        string(FIND "${SDAI_VULKAN_PATCHED}" "${SDAI_CEIL_DIV_NEW}" SDAI_CEIL_DIV_NEW_AFTER_PATCH)
+        if(SDAI_CEIL_DIV_OLD_REMAINS GREATER_EQUAL 0 OR SDAI_CEIL_DIV_NEW_AFTER_PATCH LESS 0)
+            message(FATAL_ERROR
+                "GGML Vulkan CEIL_DIV overflow fix failed to apply to "
+                "'${SDAI_GGML_VULKAN_SOURCE}'."
+            )
+        endif()
+        file(WRITE "${SDAI_GGML_VULKAN_SOURCE}" "${SDAI_VULKAN_PATCHED}")
+        message(STATUS "Applied GGML Vulkan CEIL_DIV overflow fix")
+    elseif(SDAI_CEIL_DIV_NEW_POSITION GREATER_EQUAL 0)
+        message(STATUS "GGML Vulkan CEIL_DIV overflow fix is already present")
+    else()
+        message(FATAL_ERROR
+            "GGML Vulkan CEIL_DIV overflow fix is incompatible with the vendored source. "
+            "Expected either '${SDAI_CEIL_DIV_OLD}' or '${SDAI_CEIL_DIV_NEW}' in "
+            "'${SDAI_GGML_VULKAN_SOURCE}'."
+        )
+    endif()
+endif()
 
 if(SDAI_SDCPP_ENABLE_OPENCL)
     set(SDAI_SDCPP_GGML_OPENCL_CMAKE

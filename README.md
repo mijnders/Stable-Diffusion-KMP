@@ -64,7 +64,7 @@ iOS uses the shared mobile experience with remote generation providers, Silicon 
 | ArliAI | ArliAI SDNext-compatible hosted image API | 🟢 Yes | 🟢 Yes | 🟢 Yes | 🟢 Yes | Alpha provider. Requires an ArliAI API key. Supports txt2img/img2img, checkpoint discovery, sampler selection, steps, CFG scale, negative prompt, and batch generation. |
 | Local Diffusion: Microsoft ONNX Runtime | On-device ONNX model inference | 🔴 No  | 🟢 Yes | 🟢 Yes | 🟢 Yes | Android-only txt2img. Custom local model paths are available outside the Play build. |
 | Local Diffusion: Google AI MediaPipe | On-device MediaPipe image generator | 🔴 No  | 🟢 Yes | 🟢 Yes | 🔴 No | Android-only txt2img. Excluded from the FOSS flavor. |
-| Local Diffusion: stable-diffusion.cpp SDXL | On-device SDXL-compatible model inference | 🔴 No  | 🟢 Yes | 🟢 Yes | 🟢 Yes | Android-only txt2img through stable-diffusion.cpp. Supports catalog GGUF/safetensors/ckpt models, CPU/OpenCL/Vulkan backend selection, and custom local model paths outside the Play build. |
+| Local Diffusion: stable-diffusion.cpp SDXL | On-device SDXL-compatible model inference | 🔴 No  | 🟢 Yes | 🟢 Yes | 🟢 Yes | Android-only txt2img through stable-diffusion.cpp. Supports catalog GGUF/safetensors/ckpt models, per-model sampler preferences, CPU/OpenCL/Vulkan (Hybrid)/Vulkan Only (Experimental) backends, and custom local model paths outside the Play build. |
 | Silicon Diffusion Core ML | On-device Core ML Stable Diffusion runtime | 🟢 Yes | 🔴 No | 🔴 No | 🔴 No | iOS-only txt2img and img2img with explicit downloadable/imported Core ML model assets. SDXL catalog entries are disabled until device-gated QA is stable. |
 | Local / Silicon Diffusion PrismML Bonsai | On-device PrismML Bonsai Image 4B runtime | 🟢 Yes | 🟢 Yes | 🟢 Yes | 🟢 Yes | iOS uses the Silicon Diffusion MLX runtime and is marked beta. Android uses the Local Diffusion NDK/ART runtime, is marked experimental, supports Auto/CPU/Vulkan backend selection, and should be device-checked before heavy runs. |
 
@@ -114,7 +114,7 @@ iOS uses the shared mobile experience with remote generation providers, Silicon 
 - Server URL and credentials for own-server providers.
 - API keys for hosted providers.
 - Local model selection and download flow for supported local diffusion providers.
-- Runtime backend selectors for Android local providers where available, including SDXL Auto/CPU/OpenCL/Vulkan and Bonsai Auto/CPU/Vulkan.
+- Runtime backend selectors for Android local providers where available, including SDXL Auto/CPU/OpenCL/Vulkan (Hybrid)/Vulkan Only and Bonsai Auto/CPU/Vulkan.
 - Hardware benchmark in AI Settings for local providers, including device score, acceleration availability, Android Bonsai Vulkan compute support, estimated generation time, and recommended local settings.
 - Server availability monitoring for compatible own-server modes.
 - Storage usage and network usage screens for gallery/cache/model files and provider traffic counters.
@@ -170,7 +170,11 @@ Use this on Android for on-device txt2img generation through Google AI MediaPipe
 
 ### Option 11: Local SDXL with stable-diffusion.cpp
 
-Use this on Android for on-device SDXL-compatible txt2img generation through stable-diffusion.cpp. Download a supported model from the in-app SDXL catalog or provide a compatible local single-file model outside the Play build, then choose the runtime backend from Auto, CPU, OpenCL, or Vulkan. Mobile SDXL is memory-heavy, so the catalog starts with compact/quantized GGUF options such as SSD-1B / LCM-style models before larger desktop-class SDXL files.
+Use this on Android for on-device SDXL-compatible txt2img generation through stable-diffusion.cpp. Download a supported model from the in-app SDXL catalog or provide a compatible local single-file model outside the Play build. The advanced options expose all native samplers, saved independently per selected model file. Backend choices are Auto, CPU, OpenCL, Vulkan (Hybrid: Vulkan diffusion with CPU text encoder/VAE), and Vulkan Only (Experimental: diffusion, text encoder, and VAE on Vulkan with no CPU fallback for those components). Mobile SDXL is memory-heavy, so the catalog starts with compact/quantized GGUF options such as SSD-1B / LCM-style models before larger desktop-class SDXL files.
+
+OpenCL and Vulkan native backends can be toggled for local builds with the Gradle properties `-Psdai.sdcpp.opencl=false` and `-Psdai.sdcpp.vulkan=false`, respectively. Selecting a backend omitted from the native build reports a runtime error rather than silently falling back to CPU.
+
+When Vulkan is enabled, CMake applies a checked GGML `CEIL_DIV` overflow fix to its build-local copy of the vendored source. The pinned submodules remain unchanged; configuration accepts either the original macro or the already-corrected upstream implementation and fails on an unexpected source definition.
 
 ### Option 12: Silicon Diffusion Core ML
 

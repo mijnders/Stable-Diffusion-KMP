@@ -2,12 +2,12 @@ package com.shifthackz.aisdv1.feature.sdxl
 
 import com.shifthackz.aisdv1.domain.entity.LocalDiffusionStatus
 import com.shifthackz.aisdv1.domain.entity.SdxlBackend
+import com.shifthackz.aisdv1.domain.entity.StableDiffusionCppSampler
 import com.shifthackz.aisdv1.domain.entity.TextToImagePayload
 import com.shifthackz.aisdv1.domain.feature.sdxl.StableDiffusionCpp
 import com.shifthackz.aisdv1.feature.sdxl.runtime.StableDiffusionCppBackend
 import com.shifthackz.aisdv1.feature.sdxl.runtime.StableDiffusionCppRequest
 import com.shifthackz.aisdv1.feature.sdxl.runtime.StableDiffusionCppRuntime
-import com.shifthackz.aisdv1.feature.sdxl.runtime.StableDiffusionCppSampler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.onStart
@@ -60,7 +60,7 @@ private fun TextToImagePayload.toStableDiffusionCppRequest(
     seed = seed.toLongOrNull() ?: -1L,
     batchCount = batchCount.coerceAtLeast(1),
     backend = sdxlBackend.toStableDiffusionCppBackend(),
-    sampler = StableDiffusionCppSampler.parse(sampler),
+    sampler = StableDiffusionCppSampler.parse(sdxlSampler),
 )
 
 private fun SdxlBackend.toStableDiffusionCppBackend(): StableDiffusionCppBackend = when (this) {
@@ -68,4 +68,5 @@ private fun SdxlBackend.toStableDiffusionCppBackend(): StableDiffusionCppBackend
     SdxlBackend.CPU -> StableDiffusionCppBackend.CPU
     SdxlBackend.OPEN_CL -> StableDiffusionCppBackend.OPEN_CL
     SdxlBackend.VULKAN -> StableDiffusionCppBackend.VULKAN
+    SdxlBackend.VULKAN_ONLY -> StableDiffusionCppBackend.VULKAN_ONLY
 }

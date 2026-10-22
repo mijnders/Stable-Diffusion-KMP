@@ -172,6 +172,11 @@
     <string name="hint_fal_ai_endpoint">Endpoint Fal.ai</string>
     <string name="hint_fal_ai_acceleration">Прискорення</string>
     <string name="hint_sdxl_backend">Рантайм бекенд</string>
+    <string name="sdxl_backend_auto_description">stable-diffusion.cpp автоматично вибирає бекенди.</string>
+    <string name="sdxl_backend_cpu_description">Дифузія, текстовий енкодер і VAE працюють на CPU.</string>
+    <string name="sdxl_backend_opencl_description">Дифузія працює на OpenCL0; текстовий енкодер і VAE — на CPU.</string>
+    <string name="sdxl_backend_vulkan_description">Дифузія працює на Vulkan0; текстовий енкодер і VAE — на CPU.</string>
+    <string name="sdxl_backend_vulkan_only_description">Дифузія, текстовий енкодер і VAE працюють на Vulkan0; для цих компонентів немає переходу на CPU.</string>
     <string name="hint_bonsai_backend">Рантайм бекенд</string>
     <string name="hint_fal_ai_sync_mode">Синхронний режим</string>
     <string name="title_input_image">Вхідне зображення</string>

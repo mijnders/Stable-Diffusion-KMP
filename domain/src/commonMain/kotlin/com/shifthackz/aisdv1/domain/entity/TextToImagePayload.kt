@@ -35,6 +35,7 @@ data class TextToImagePayload(
     val falAiImageSize: FalAiImageSize = FalAiImageSize.default,
     val falAiAcceleration: FalAiAcceleration = FalAiAcceleration.default,
     val sdxlBackend: SdxlBackend = SdxlBackend.AUTO,
+    val sdxlSampler: String = "euler",
     val bonsaiBackend: BonsaiBackend = BonsaiBackend.AUTO,
     val falAiSyncMode: Boolean = false,
     val arliAiModel: String = "",

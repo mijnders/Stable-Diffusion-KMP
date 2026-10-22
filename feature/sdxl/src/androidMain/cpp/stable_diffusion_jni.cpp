@@ -99,6 +99,10 @@ void configure_opencl_icd_loader() {
 }
 
 bool validate_backend_available(JNIEnv* env, jint backend) {
+    if (backend < 0 || backend > 4) {
+        throw_illegal_state(env, "Unsupported stable-diffusion.cpp backend selection.");
+        return false;
+    }
     if (backend == 2 && !SDAI_SDCPP_HAS_OPENCL) {
         throw_illegal_state(
             env,
@@ -108,8 +112,12 @@ bool validate_backend_available(JNIEnv* env, jint backend) {
         );
         return false;
     }
-    if (backend == 3 && !SDAI_SDCPP_HAS_VULKAN) {
-        throw_illegal_state(env, "Vulkan backend is not compiled into this build.");
+    if ((backend == 3 || backend == 4) && !SDAI_SDCPP_HAS_VULKAN) {
+        throw_illegal_state(
+            env,
+            "Vulkan backend is not compiled into this build. "
+            "Rebuild stable-diffusion.cpp with SDAI_SDCPP_ENABLE_VULKAN=ON."
+        );
         return false;
     }
     return true;
@@ -117,12 +125,16 @@ bool validate_backend_available(JNIEnv* env, jint backend) {
 
 std::string backend_spec_for(jint backend) {
     switch (backend) {
+        case 0:
+            return "";
         case 1:
             return "cpu";
         case 2:
             return "diffusion=opencl0,te=cpu,vae=cpu";
         case 3:
             return "diffusion=vulkan0,te=cpu,vae=cpu";
+        case 4:
+            return "diffusion=vulkan0,te=vulkan0,vae=vulkan0";
         default:
             return "";
     }
@@ -418,6 +430,10 @@ jbyteArray native_generate(
     JStringChars negative_prompt_chars(env, negative_prompt);
 
     if (!validate_backend_available(env, backend)) {
+        return nullptr;
+    }
+    if (sampler < 0 || sampler > 9) {
+        throw_illegal_state(env, "Unsupported stable-diffusion.cpp sampler selection.");
         return nullptr;
     }
 

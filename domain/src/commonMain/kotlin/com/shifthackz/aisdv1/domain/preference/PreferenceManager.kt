@@ -216,6 +216,8 @@ interface PreferenceManager {
      * @author Dmitriy Moroz
      */
     var localSdxlModelId: String
+    fun getLocalSdxlSampler(modelId: String, customModelPath: String): String
+    fun setLocalSdxlSampler(modelId: String, customModelPath: String, sampler: String): Boolean
     /**
      * Exposes the `localCoreMlModelId` value used by the SDAI domain layer.
      *

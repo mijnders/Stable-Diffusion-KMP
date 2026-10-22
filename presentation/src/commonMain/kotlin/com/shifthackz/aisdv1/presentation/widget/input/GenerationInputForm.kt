@@ -111,9 +111,25 @@ fun GenerationInputForm(
                     modifier = Modifier.padding(top = 8.dp),
                     label = Localization.string("hint_sdxl_backend").asUiText(),
                     value = state.sdxlBackend,
-                    items = SdxlBackend.entries,
+                    items = SdxlBackend.entries.filter {
+                        it != SdxlBackend.VULKAN_ONLY || state.sdxlVulkanOnlyVisible
+                    },
                     onItemSelected = { onEvent(GenerationInputFormEvent.UpdateSdxlBackend(it)) },
                     displayDelegate = { it.displayName.asUiText() },
+                )
+                Text(
+                    modifier = Modifier.padding(top = 4.dp),
+                    text = Localization.string(
+                        when (state.sdxlBackend) {
+                            SdxlBackend.AUTO -> "sdxl_backend_auto_description"
+                            SdxlBackend.CPU -> "sdxl_backend_cpu_description"
+                            SdxlBackend.OPEN_CL -> "sdxl_backend_opencl_description"
+                            SdxlBackend.VULKAN -> "sdxl_backend_vulkan_description"
+                            SdxlBackend.VULKAN_ONLY -> "sdxl_backend_vulkan_only_description"
+                        },
+                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
             if (

@@ -5,6 +5,7 @@ import com.shifthackz.aisdv1.domain.entity.ColorToken
 import com.shifthackz.aisdv1.domain.entity.DarkThemeToken
 import com.shifthackz.aisdv1.domain.entity.Grid
 import com.shifthackz.aisdv1.domain.entity.HuggingFaceModel
+import com.shifthackz.aisdv1.domain.entity.LocalAiModel
 import com.shifthackz.aisdv1.domain.entity.ServerSource
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -170,6 +171,84 @@ class PreferenceManagerImplTest {
         Assert.assertEquals("/models/bonsai", preferenceManager.localBonsaiCustomModelPath)
         Assert.assertTrue(preferenceManager.localOnnxUseNNAPI)
         Assert.assertTrue(preferenceManager.localOnnxAllowCancel)
+    }
+
+    @Test
+    fun `given different SDXL model ids, sampler preference is restored independently`() {
+        Assert.assertEquals(
+            "euler",
+            preferenceManager.getLocalSdxlSampler(modelId = "model-a", customModelPath = ""),
+        )
+        Assert.assertTrue(
+            preferenceManager.setLocalSdxlSampler(
+                modelId = "model-a",
+                customModelPath = "",
+                sampler = "lcm",
+            ),
+        )
+        Assert.assertTrue(
+            preferenceManager.setLocalSdxlSampler(
+                modelId = "model-b",
+                customModelPath = "",
+                sampler = "dpmpp2m",
+            ),
+        )
+
+        Assert.assertEquals(
+            "lcm",
+            preferenceManager.getLocalSdxlSampler(modelId = "model-a", customModelPath = ""),
+        )
+        Assert.assertEquals(
+            "dpmpp2m",
+            preferenceManager.getLocalSdxlSampler(modelId = "model-b", customModelPath = ""),
+        )
+        val restartedManager = PreferenceManagerImpl(keyValueStore)
+        Assert.assertEquals(
+            "lcm",
+            restartedManager.getLocalSdxlSampler(modelId = "model-a", customModelPath = ""),
+        )
+    }
+
+    @Test
+    fun `given custom SDXL model files, sampler preference is keyed by file path`() {
+        val customModelId = LocalAiModel.CustomSdxl.id
+        Assert.assertTrue(
+            preferenceManager.setLocalSdxlSampler(
+                modelId = customModelId,
+                customModelPath = "content://models/a",
+                sampler = "lcm",
+            ),
+        )
+        Assert.assertTrue(
+            preferenceManager.setLocalSdxlSampler(
+                modelId = customModelId,
+                customModelPath = "content://models/b",
+                sampler = "dpmpp2m",
+            ),
+        )
+
+        Assert.assertEquals(
+            "lcm",
+            preferenceManager.getLocalSdxlSampler(customModelId, "content://models/a"),
+        )
+        Assert.assertEquals(
+            "dpmpp2m",
+            preferenceManager.getLocalSdxlSampler(customModelId, "content://models/b"),
+        )
+    }
+
+    @Test
+    fun `given missing SDXL model identity, sampler uses Euler and is not persisted`() {
+        Assert.assertEquals("euler", preferenceManager.getLocalSdxlSampler("", ""))
+        Assert.assertFalse(preferenceManager.setLocalSdxlSampler("", "", "lcm"))
+        Assert.assertEquals("euler", preferenceManager.getLocalSdxlSampler("", ""))
+        Assert.assertEquals(
+            "euler",
+            preferenceManager.getLocalSdxlSampler(LocalAiModel.CustomSdxl.id, ""),
+        )
+        Assert.assertFalse(
+            preferenceManager.setLocalSdxlSampler(LocalAiModel.CustomSdxl.id, "", "lcm"),
+        )
         Assert.assertEquals(SchedulersToken.IO_THREAD, preferenceManager.localOnnxSchedulerThread)
     }
 

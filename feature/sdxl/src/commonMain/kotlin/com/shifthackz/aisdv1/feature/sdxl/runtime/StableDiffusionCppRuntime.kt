@@ -1,5 +1,7 @@
 package com.shifthackz.aisdv1.feature.sdxl.runtime
 
+import com.shifthackz.aisdv1.domain.entity.StableDiffusionCppSampler
+
 data class StableDiffusionCppRequest(
     val modelPath: String,
     val prompt: String,

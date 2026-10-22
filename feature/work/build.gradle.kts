@@ -27,5 +27,9 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.androidx.work.runtime)
         }
+
+        androidUnitTest.dependencies {
+            implementation(libs.test.junit)
+        }
     }
 }

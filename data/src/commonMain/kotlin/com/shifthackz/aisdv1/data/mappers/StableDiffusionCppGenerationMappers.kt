@@ -26,7 +26,7 @@ fun Pair<TextToImagePayload, String>.mapStableDiffusionCppTextToImageResult(): A
             samplingSteps = payload.samplingSteps,
             cfgScale = payload.cfgScale,
             restoreFaces = payload.restoreFaces,
-            sampler = payload.sampler,
+            sampler = payload.sdxlSampler,
             seed = payload.seed,
             subSeed = payload.subSeed,
             subSeedStrength = payload.subSeedStrength,

@@ -19,6 +19,7 @@ import com.shifthackz.aisdv1.domain.entity.OpenAiSize
 import com.shifthackz.aisdv1.domain.entity.Scheduler
 import com.shifthackz.aisdv1.domain.entity.SdxlBackend
 import com.shifthackz.aisdv1.domain.entity.ServerSource
+import com.shifthackz.aisdv1.domain.entity.StableDiffusionCppSampler
 import com.shifthackz.aisdv1.domain.entity.StabilityAiClipGuidance
 import com.shifthackz.aisdv1.domain.entity.StabilityAiStylePreset
 import com.shifthackz.aisdv1.presentation.model.GenerationModal
@@ -79,6 +80,7 @@ data class ImageToImageState(
     override val falAiAcceleration: FalAiAcceleration = FalAiAcceleration.default,
     override val falAiSyncMode: Boolean = false,
     override val sdxlBackend: SdxlBackend = SdxlBackend.AUTO,
+    override val selectedSdxlSampler: StableDiffusionCppSampler = StableDiffusionCppSampler.EULER,
     override val bonsaiBackend: BonsaiBackend = BonsaiBackend.AUTO,
     override val bonsaiBackendSelectionVisible: Boolean = false,
     override val arliAiModels: List<String> = emptyList(),

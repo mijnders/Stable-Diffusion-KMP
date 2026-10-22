@@ -12,6 +12,7 @@ import com.shifthackz.aisdv1.domain.entity.ServerSource
 import com.shifthackz.aisdv1.domain.entity.Settings
 import com.shifthackz.aisdv1.domain.entity.StableDiffusionModel
 import com.shifthackz.aisdv1.domain.entity.StableDiffusionSampler
+import com.shifthackz.aisdv1.domain.entity.StableDiffusionCppSampler
 import com.shifthackz.aisdv1.domain.feature.work.BackgroundTaskManager
 import com.shifthackz.aisdv1.domain.feature.work.BackgroundWorkObserver
 import com.shifthackz.aisdv1.domain.interactor.wakelock.WakeLockInterActor
@@ -35,6 +36,8 @@ import com.shifthackz.aisdv1.presentation.core.GenerationFormUpdateEvent
 import com.shifthackz.aisdv1.presentation.core.GenerationPlatformServices
 import com.shifthackz.aisdv1.presentation.model.GenerationModal
 import com.shifthackz.aisdv1.presentation.navigation.router.TextToImageRouter
+import com.shifthackz.aisdv1.presentation.screen.getSelectedSdxlSampler
+import com.shifthackz.aisdv1.presentation.screen.saveSelectedSdxlSampler
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.withContext
 
@@ -126,6 +129,20 @@ class TextToImageViewModel(
     private val intentProcessor = TextToImageIntentProcessor(
         router = router,
         updateState = { reducer -> updateState(reducer) },
+        updateSampler = { value ->
+            if (currentState.mode == ServerSource.LOCAL_STABLE_DIFFUSION_CPP) {
+                val sampler = StableDiffusionCppSampler.parse(value)
+                val saved = preferenceManager.saveSelectedSdxlSampler(sampler)
+                updateState {
+                    it.copy(
+                        selectedSdxlSampler = sampler.takeIf { saved } ?: StableDiffusionCppSampler.EULER,
+                        message = null,
+                    )
+                }
+            } else {
+                updateState { it.copy(selectedSampler = value, message = null) }
+            }
+        },
         generate = actionHandler::generate,
         cancelGeneration = actionHandler::cancelGeneration,
         saveImage = actionHandler::saveImage,
@@ -290,7 +307,7 @@ class TextToImageViewModel(
                             forgeModules = forgeModules,
                             aDetailerAvailable = aDetailerAvailable,
                             arliAiModels = arliAiModels,
-                        )
+                        ).copy(selectedSdxlSampler = preferenceManager.getSelectedSdxlSampler())
                     }
                 }
         }

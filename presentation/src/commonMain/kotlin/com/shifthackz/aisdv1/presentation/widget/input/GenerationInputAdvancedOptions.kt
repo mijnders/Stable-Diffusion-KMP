@@ -23,6 +23,7 @@ import com.shifthackz.aisdv1.core.common.math.roundTo
 import com.shifthackz.aisdv1.core.localization.Localization
 import com.shifthackz.aisdv1.core.model.asUiText
 import com.shifthackz.aisdv1.domain.entity.ServerSource
+import com.shifthackz.aisdv1.domain.entity.StableDiffusionCppSampler
 import com.shifthackz.aisdv1.domain.entity.StabilityAiClipGuidance
 import com.shifthackz.aisdv1.domain.entity.StabilityAiSampler
 import com.shifthackz.aisdv1.domain.entity.StabilityAiStylePreset
@@ -62,8 +63,25 @@ internal fun GenerationInputAdvancedOptions(
             visible = state.advancedOptionsVisible && state.mode != ServerSource.OPEN_AI,
         ) {
             Column {
-                // Sampler selection only supported for A1111, STABILITY AI
+                // Sampler options are specific to the selected provider/runtime.
                 when (state.mode) {
+                    ServerSource.LOCAL_STABLE_DIFFUSION_CPP -> {
+                        if (state.sdxlSamplerSelectionVisible && !isImg2Img) {
+                            DropdownTextField(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 8.dp),
+                                label = Localization.string("hint_sampler").asUiText(),
+                                value = state.selectedSdxlSampler,
+                                items = StableDiffusionCppSampler.entries,
+                                onItemSelected = {
+                                    onEvent(GenerationInputFormEvent.UpdateSampler(it.key))
+                                },
+                                displayDelegate = { it.displayName.asUiText() },
+                            )
+                        }
+                    }
+
                     ServerSource.STABILITY_AI,
                     ServerSource.ARLI_AI,
                     ServerSource.AUTOMATIC1111 -> DropdownTextField(

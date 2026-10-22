@@ -172,6 +172,11 @@
     <string name="hint_fal_ai_endpoint">Fal.ai uç noktası</string>
     <string name="hint_fal_ai_acceleration">Hızlandırma</string>
     <string name="hint_sdxl_backend">Çalışma zamanı arka ucu</string>
+    <string name="sdxl_backend_auto_description">stable-diffusion.cpp arka uçları otomatik seçer.</string>
+    <string name="sdxl_backend_cpu_description">Diffusion, metin kodlayıcı ve VAE CPU üzerinde çalışır.</string>
+    <string name="sdxl_backend_opencl_description">Diffusion OpenCL0 üzerinde; metin kodlayıcı ve VAE CPU üzerinde çalışır.</string>
+    <string name="sdxl_backend_vulkan_description">Diffusion Vulkan0 üzerinde; metin kodlayıcı ve VAE CPU üzerinde çalışır.</string>
+    <string name="sdxl_backend_vulkan_only_description">Diffusion, metin kodlayıcı ve VAE Vulkan0 üzerinde çalışır; bu bileşenlerde CPU geri dönüşü yoktur.</string>
     <string name="hint_bonsai_backend">Çalışma zamanı arka ucu</string>
     <string name="hint_fal_ai_sync_mode">Senkronizasyon modu</string>
     <string name="title_input_image">Girdi görüntüsü</string>

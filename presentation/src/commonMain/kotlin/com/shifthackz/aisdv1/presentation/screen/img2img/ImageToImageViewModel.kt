@@ -13,6 +13,7 @@ import com.shifthackz.aisdv1.domain.entity.ServerSource
 import com.shifthackz.aisdv1.domain.entity.Settings
 import com.shifthackz.aisdv1.domain.entity.StableDiffusionModel
 import com.shifthackz.aisdv1.domain.entity.StableDiffusionSampler
+import com.shifthackz.aisdv1.domain.entity.StableDiffusionCppSampler
 import com.shifthackz.aisdv1.domain.feature.work.BackgroundTaskManager
 import com.shifthackz.aisdv1.domain.feature.work.BackgroundWorkObserver
 import com.shifthackz.aisdv1.domain.interactor.wakelock.WakeLockInterActor
@@ -34,6 +35,8 @@ import com.shifthackz.aisdv1.presentation.core.GenerationFormUpdateEvent
 import com.shifthackz.aisdv1.presentation.core.GenerationPlatformServices
 import com.shifthackz.aisdv1.presentation.model.GenerationModal
 import com.shifthackz.aisdv1.presentation.navigation.router.ImageToImageRouter
+import com.shifthackz.aisdv1.presentation.screen.getSelectedSdxlSampler
+import com.shifthackz.aisdv1.presentation.screen.saveSelectedSdxlSampler
 import com.shifthackz.aisdv1.presentation.screen.txt2img.ImageSaver
 import com.shifthackz.aisdv1.presentation.screen.txt2img.ImageSharer
 import kotlinx.coroutines.flow.catch
@@ -128,6 +131,20 @@ class ImageToImageViewModel(
     private val intentProcessor = ImageToImageIntentProcessor(
         router = router,
         updateState = { reducer -> updateState(reducer) },
+        updateSampler = { value ->
+            if (currentState.mode == ServerSource.LOCAL_STABLE_DIFFUSION_CPP) {
+                val sampler = StableDiffusionCppSampler.parse(value)
+                val saved = preferenceManager.saveSelectedSdxlSampler(sampler)
+                updateState {
+                    it.copy(
+                        selectedSdxlSampler = sampler.takeIf { saved } ?: StableDiffusionCppSampler.EULER,
+                        message = null,
+                    )
+                }
+            } else {
+                updateState { it.copy(selectedSampler = value, message = null) }
+            }
+        },
         pickImage = actionHandler::pickImage,
         pickRandomImage = actionHandler::pickRandomImage,
         generate = actionHandler::generate,
@@ -305,7 +322,7 @@ class ImageToImageViewModel(
                             forgeModules = forgeModules,
                             aDetailerAvailable = aDetailerAvailable,
                             arliAiModels = arliAiModels,
-                        )
+                        ).copy(selectedSdxlSampler = preferenceManager.getSelectedSdxlSampler())
                     }
                 }
         }

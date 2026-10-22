@@ -28,6 +28,7 @@ internal class ImageToImageIntentProcessor(
      * @author Dmitriy Moroz
      */
     private val updateState: (((ImageToImageState) -> ImageToImageState) -> Unit),
+    private val updateSampler: (String) -> Unit,
     /**
      * Exposes the `pickImage` value used by the SDAI presentation layer.
      *
@@ -251,9 +252,7 @@ internal class ImageToImageIntentProcessor(
                     message = null,
                 )
             }
-            is ImageToImageIntent.UpdateSampler -> updateState {
-                it.copy(selectedSampler = intent.value, message = null)
-            }
+            is ImageToImageIntent.UpdateSampler -> updateSampler(intent.value)
             is ImageToImageIntent.UpdateScheduler -> updateState {
                 it.copy(selectedScheduler = intent.value, message = null)
             }

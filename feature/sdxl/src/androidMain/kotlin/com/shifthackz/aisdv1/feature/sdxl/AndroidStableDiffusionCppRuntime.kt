@@ -44,8 +44,8 @@ internal class AndroidStableDiffusionCppRuntime : StableDiffusionCppRuntime {
                     cfgScale = request.cfgScale,
                     seed = request.seed,
                     batchCount = request.batchCount,
-                    backend = request.backend.ordinal,
-                    sampler = request.sampler.ordinal,
+                    backend = request.backend.nativeId,
+                    sampler = request.sampler.nativeId,
                     shape = shape,
                     callback = object : StableDiffusionCppNativeBridge.ProgressCallback {
                         override fun onProgress(current: Int, total: Int) {

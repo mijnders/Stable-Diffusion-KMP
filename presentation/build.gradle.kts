@@ -92,10 +92,6 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
         }
 
-        iosMain.dependencies {
-            implementation(project(":feature:sdxl"))
-        }
-
         androidUnitTest.dependencies {
             implementation(libs.test.junit)
             implementation(libs.test.koin)
@@ -105,6 +101,10 @@ kotlin {
             implementation(libs.test.turbine)
             implementation(libs.test.roboelectric)
             implementation(libs.test.compose.junit)
+        }
+
+        iosMain.dependencies {
+            implementation(project(":feature:sdxl"))
         }
     }
 }

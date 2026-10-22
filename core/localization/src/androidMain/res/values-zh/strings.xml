@@ -188,6 +188,11 @@
     <string name="hint_fal_ai_endpoint">Fal.ai 端点</string>
     <string name="hint_fal_ai_acceleration">加速</string>
     <string name="hint_sdxl_backend">运行时后端</string>
+    <string name="sdxl_backend_auto_description">由 stable-diffusion.cpp 自动选择后端。</string>
+    <string name="sdxl_backend_cpu_description">扩散模型、文本编码器和 VAE 均在 CPU 上运行。</string>
+    <string name="sdxl_backend_opencl_description">扩散模型在 OpenCL0 上运行；文本编码器和 VAE 在 CPU 上运行。</string>
+    <string name="sdxl_backend_vulkan_description">扩散模型在 Vulkan0 上运行；文本编码器和 VAE 在 CPU 上运行。</string>
+    <string name="sdxl_backend_vulkan_only_description">扩散模型、文本编码器和 VAE 均在 Vulkan0 上运行；这些组件不会回退到 CPU。</string>
     <string name="hint_bonsai_backend">运行时后端</string>
     <string name="hint_fal_ai_sync_mode">同步模式</string>
     <string name="title_input_image">输入图像</string>

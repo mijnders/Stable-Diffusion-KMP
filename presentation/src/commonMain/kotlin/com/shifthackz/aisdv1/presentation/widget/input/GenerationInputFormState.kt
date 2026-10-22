@@ -14,6 +14,7 @@ import com.shifthackz.aisdv1.domain.entity.OpenAiSize
 import com.shifthackz.aisdv1.domain.entity.Scheduler
 import com.shifthackz.aisdv1.domain.entity.SdxlBackend
 import com.shifthackz.aisdv1.domain.entity.ServerSource
+import com.shifthackz.aisdv1.domain.entity.StableDiffusionCppSampler
 import com.shifthackz.aisdv1.domain.entity.StabilityAiClipGuidance
 import com.shifthackz.aisdv1.domain.entity.StabilityAiStylePreset
 
@@ -55,6 +56,12 @@ interface GenerationInputFormState {
     val falAiAcceleration: FalAiAcceleration
     val falAiSyncMode: Boolean
     val sdxlBackend: SdxlBackend
+    val selectedSdxlSampler: StableDiffusionCppSampler
+        get() = StableDiffusionCppSampler.EULER
+    val sdxlSamplerSelectionVisible: Boolean
+        get() = false
+    val sdxlVulkanOnlyVisible: Boolean
+        get() = false
     val bonsaiBackend: BonsaiBackend
     val bonsaiBackendSelectionVisible: Boolean
         get() = false

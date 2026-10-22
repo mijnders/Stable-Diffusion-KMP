@@ -81,6 +81,7 @@ private data class TextToImagePayloadDto(
     val falAiImageSize: String? = null,
     val falAiAcceleration: String? = null,
     val sdxlBackend: String? = null,
+    val sdxlSampler: String = "euler",
     val bonsaiBackend: String? = null,
     val falAiSyncMode: Boolean = false,
 ) {
@@ -111,6 +112,7 @@ private data class TextToImagePayloadDto(
         falAiImageSize = FalAiImageSize.parse(falAiImageSize),
         falAiAcceleration = FalAiAcceleration.parse(falAiAcceleration),
         sdxlBackend = SdxlBackend.parse(sdxlBackend),
+        sdxlSampler = sdxlSampler,
         bonsaiBackend = BonsaiBackend.parse(bonsaiBackend),
         falAiSyncMode = falAiSyncMode,
     )
@@ -143,6 +145,7 @@ private data class TextToImagePayloadDto(
             falAiImageSize = payload.falAiImageSize.key,
             falAiAcceleration = payload.falAiAcceleration.key,
             sdxlBackend = payload.sdxlBackend.key,
+            sdxlSampler = payload.sdxlSampler,
             bonsaiBackend = payload.bonsaiBackend.key,
             falAiSyncMode = payload.falAiSyncMode,
         )

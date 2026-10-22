@@ -7,6 +7,10 @@ val stableDiffusionCppOpenClEnabled = providers
     .gradleProperty("sdai.sdcpp.opencl")
     .map(String::toBoolean)
     .getOrElse(true)
+val stableDiffusionCppVulkanEnabled = providers
+    .gradleProperty("sdai.sdcpp.vulkan")
+    .map(String::toBoolean)
+    .getOrElse(true)
 
 android {
     namespace = "com.shifthackz.aisdv1.feature.sdxl"
@@ -22,7 +26,7 @@ android {
                     "-DANDROID_STL=c++_shared",
                     "-DGGML_OPENMP=OFF",
                     "-DSDAI_SDCPP_ENABLE_OPENCL=$stableDiffusionCppOpenClEnabled",
-                    "-DSDAI_SDCPP_ENABLE_VULKAN=ON",
+                    "-DSDAI_SDCPP_ENABLE_VULKAN=$stableDiffusionCppVulkanEnabled",
                 )
             }
         }

@@ -20,6 +20,7 @@ import kotlin.math.roundToInt
 internal class TextToImageIntentProcessor(
     private val router: TextToImageRouter,
     private val updateState: (((TextToImageState) -> TextToImageState) -> Unit),
+    private val updateSampler: (String) -> Unit,
     private val generate: () -> Unit,
     private val cancelGeneration: () -> Unit,
     private val saveImage: (String) -> Unit,
@@ -151,9 +152,7 @@ internal class TextToImageIntentProcessor(
                     message = null,
                 )
             }
-            is TextToImageIntent.UpdateSampler -> updateState {
-                it.copy(selectedSampler = intent.value, message = null)
-            }
+            is TextToImageIntent.UpdateSampler -> updateSampler(intent.value)
             is TextToImageIntent.UpdateScheduler -> updateState {
                 it.copy(selectedScheduler = intent.value, message = null)
             }

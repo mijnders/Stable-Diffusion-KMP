@@ -18,6 +18,7 @@ import com.shifthackz.aisdv1.domain.entity.OpenAiSize
 import com.shifthackz.aisdv1.domain.entity.Scheduler
 import com.shifthackz.aisdv1.domain.entity.SdxlBackend
 import com.shifthackz.aisdv1.domain.entity.ServerSource
+import com.shifthackz.aisdv1.domain.entity.StableDiffusionCppSampler
 import com.shifthackz.aisdv1.domain.entity.StabilityAiClipGuidance
 import com.shifthackz.aisdv1.domain.entity.StabilityAiStylePreset
 import com.shifthackz.aisdv1.domain.entity.TextToImagePayload
@@ -75,6 +76,9 @@ data class TextToImageState(
     override val falAiAcceleration: FalAiAcceleration = FalAiAcceleration.default,
     override val falAiSyncMode: Boolean = false,
     override val sdxlBackend: SdxlBackend = SdxlBackend.AUTO,
+    override val selectedSdxlSampler: StableDiffusionCppSampler = StableDiffusionCppSampler.EULER,
+    override val sdxlSamplerSelectionVisible: Boolean = platform == Platform.ANDROID,
+    override val sdxlVulkanOnlyVisible: Boolean = platform == Platform.ANDROID,
     override val bonsaiBackend: BonsaiBackend = BonsaiBackend.AUTO,
     override val bonsaiBackendSelectionVisible: Boolean = false,
     override val arliAiModels: List<String> = emptyList(),
@@ -170,6 +174,9 @@ internal fun TextToImageState.mapToPayload(): TextToImagePayload = TextToImagePa
     sdxlBackend = sdxlBackend.takeIf {
         mode == ServerSource.LOCAL_STABLE_DIFFUSION_CPP
     } ?: SdxlBackend.AUTO,
+    sdxlSampler = selectedSdxlSampler.key.takeIf {
+        mode == ServerSource.LOCAL_STABLE_DIFFUSION_CPP
+    } ?: StableDiffusionCppSampler.EULER.key,
     bonsaiBackend = bonsaiBackend.takeIf {
         mode == ServerSource.LOCAL_APPLE_BONSAI
     } ?: BonsaiBackend.AUTO,

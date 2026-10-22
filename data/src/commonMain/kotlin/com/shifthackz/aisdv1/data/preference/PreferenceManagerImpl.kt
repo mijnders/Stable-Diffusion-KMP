@@ -8,12 +8,15 @@ import com.shifthackz.aisdv1.domain.entity.DarkThemeToken
 import com.shifthackz.aisdv1.domain.entity.FeatureTag
 import com.shifthackz.aisdv1.domain.entity.Grid
 import com.shifthackz.aisdv1.domain.entity.HuggingFaceModel
+import com.shifthackz.aisdv1.domain.entity.LocalAiModel
 import com.shifthackz.aisdv1.domain.entity.ServerSource
 import com.shifthackz.aisdv1.domain.entity.Settings
 import com.shifthackz.aisdv1.domain.preference.PreferenceManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+
+private const val DEFAULT_SDXL_SAMPLER = "euler"
 
 /**
  * Implements `PreferenceManager` behavior in the SDAI data layer.
@@ -348,6 +351,21 @@ internal class PreferenceManagerImpl(
         get() = keyValueStore.getString(KEY_SDXL_MODEL_ID)
         set(value) = putString(KEY_SDXL_MODEL_ID, value)
 
+    override fun getLocalSdxlSampler(modelId: String, customModelPath: String): String {
+        val key = localSdxlSamplerPreferenceKey(modelId, customModelPath) ?: return DEFAULT_SDXL_SAMPLER
+        return keyValueStore.getString(key, DEFAULT_SDXL_SAMPLER)
+    }
+
+    override fun setLocalSdxlSampler(
+        modelId: String,
+        customModelPath: String,
+        sampler: String,
+    ): Boolean {
+        val key = localSdxlSamplerPreferenceKey(modelId, customModelPath) ?: return false
+        putString(key, sampler)
+        return true
+    }
+
     /**
      * Exposes the `localCoreMlModelId` value used by the SDAI data layer.
      *
@@ -568,6 +586,16 @@ internal class PreferenceManagerImpl(
     private inline fun <reified T : Enum<T>> enumValueOrDefault(index: Int, default: T): T =
         enumValues<T>().getOrNull(index) ?: default
 
+    private fun localSdxlSamplerPreferenceKey(modelId: String, customModelPath: String): String? {
+        if (modelId.isBlank()) return null
+        val identity = if (modelId == LocalAiModel.CustomSdxl.id) {
+            customModelPath.takeIf { it.isNotBlank() }?.let { "custom:$it" } ?: return null
+        } else {
+            "model:$modelId"
+        }
+        return "$KEY_SDXL_SAMPLER_PREFIX$identity"
+    }
+
     /**
      * Provides the `companion object` singleton used by the SDAI data layer.
      *
@@ -778,6 +806,7 @@ internal class PreferenceManagerImpl(
          * @author Dmitriy Moroz
          */
         const val KEY_SDXL_MODEL_ID = "key_sdxl_model_id"
+        const val KEY_SDXL_SAMPLER_PREFIX = "key_sdxl_sampler_"
         /**
          * Exposes the `KEY_LOCAL_MODEL_ID` value used by the SDAI data layer.
          *
