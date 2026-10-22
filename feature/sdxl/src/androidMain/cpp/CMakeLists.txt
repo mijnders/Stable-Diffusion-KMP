@@ -94,7 +94,10 @@ endif()
 
 if(SDAI_SDCPP_ENABLE_VULKAN)
     if(ANDROID_NDK)
-        file(GLOB SDAI_SDCPP_NDK_GLSLC_CANDIDATES "${ANDROID_NDK}/shader-tools/*/glslc")
+        file(GLOB SDAI_SDCPP_NDK_GLSLC_CANDIDATES
+            "${ANDROID_NDK}/shader-tools/*/glslc"
+            "${ANDROID_NDK}/shader-tools/*/glslc.exe"
+        )
         list(LENGTH SDAI_SDCPP_NDK_GLSLC_CANDIDATES SDAI_SDCPP_NDK_GLSLC_COUNT)
         if(SDAI_SDCPP_NDK_GLSLC_COUNT GREATER 0)
             list(GET SDAI_SDCPP_NDK_GLSLC_CANDIDATES 0 SDAI_SDCPP_NDK_GLSLC)
