@@ -212,9 +212,9 @@ Daemon will be stopped at the end of the build
 > Task :presentation:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
 > Task :presentation:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
 > Task :presentation:convertXmlValueResourcesForCommonMain NO-SOURCE
-> Task :presentation:copyNonXmlValueResourcesForCommonMain UP-TO-DATE
-> Task :presentation:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
-> Task :presentation:copyDebugComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :presentation:copyNonXmlValueResourcesForCommonMain
+> Task :presentation:prepareComposeResourcesTaskForCommonMain
+> Task :presentation:copyDebugComposeResourcesToAndroidAssets
 > Task :presentation:generateDebugResValues UP-TO-DATE
 > Task :presentation:generateDebugResources UP-TO-DATE
 > Task :presentation:packageDebugResources UP-TO-DATE
@@ -273,7 +273,7 @@ Daemon will be stopped at the end of the build
 > Task :feature:work:generateDebugResValues UP-TO-DATE
 > Task :feature:work:generateDebugResources UP-TO-DATE
 > Task :feature:work:packageDebugResources UP-TO-DATE
-> Task :app:mapFullDebugSourceSetPaths UP-TO-DATE
+> Task :app:mapFullDebugSourceSetPaths
 > Task :app:generateFullDebugResources UP-TO-DATE
 > Task :app:mergeFullDebugResources UP-TO-DATE
 > Task :app:packageFullDebugResources UP-TO-DATE
@@ -439,7 +439,7 @@ Daemon will be stopped at the end of the build
 > Task :presentation:generateResourceAccessorsForAndroidDebug NO-SOURCE
 > Task :core:localization:kmpPartiallyResolvedDependenciesChecker
 > Task :core:localization:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :core:localization:generateAndroidLocalizationCatalog UP-TO-DATE
+> Task :core:localization:generateAndroidLocalizationCatalog
 > Task :core:localization:compileDebugKotlinAndroid UP-TO-DATE
 > Task :core:localization:javaPreCompileDebug UP-TO-DATE
 > Task :core:localization:compileDebugJavaWithJavac NO-SOURCE
@@ -653,7 +653,6 @@ Daemon will be stopped at the end of the build
 > Task :storage:bundleLibRuntimeToJarDebug UP-TO-DATE
 > Task :core:localization:bundleLibRuntimeToJarDebug UP-TO-DATE
 > Task :app:dexBuilderFullDebug UP-TO-DATE
-> Task :app:mergeFullDebugGlobalSynthetics UP-TO-DATE
 > Task :app:processFullDebugJavaRes UP-TO-DATE
 > Task :data:processDebugJavaRes UP-TO-DATE
 > Task :demo:processDebugJavaRes UP-TO-DATE
@@ -703,7 +702,6 @@ Daemon will be stopped at the end of the build
 > Task :data:copyDebugJniLibsProjectOnly UP-TO-DATE
 > Task :demo:mergeDebugJniLibFolders UP-TO-DATE
 > Task :demo:mergeDebugNativeLibs NO-SOURCE
-> Task :app:mergeLibDexFullDebug UP-TO-DATE
 > Task :demo:copyDebugJniLibsProjectOnly UP-TO-DATE
 > Task :domain:mergeDebugJniLibFolders UP-TO-DATE
 > Task :domain:mergeDebugNativeLibs NO-SOURCE
@@ -765,3 +763,438 @@ Daemon will be stopped at the end of the build
 > Task :feature:onnx:copyDebugJniLibsProjectOnly UP-TO-DATE
 > Task :feature:sdxl:prePlaystoreDebugBuild UP-TO-DATE
 > Task :feature:sdxl:configureCMakeDebug[arm64-v8a]
+C/C++: -- Use Vulkan as backend stable-diffusion
+C/C++: -- Build static library
+
+> Task :app:mergeFullDebugGlobalSynthetics UP-TO-DATE
+> Task :app:mergeLibDexFullDebug UP-TO-DATE
+
+> Task :feature:sdxl:buildCMakeDebug[arm64-v8a]
+C/C++: ninja: Entering directory `S:\feature\sdxl\.cxx\Debug\15t39v49\arm64-v8a'
+C/C++: In file included from S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-src/thirdparty/zip.c:40:
+C/C++: S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-src/thirdparty/miniz.h:4988:9: warning: Using fopen, ftello, fseeko, stat() etc. path for file I/O - this path may not support large files. [-W#pragma-messages]
+C/C++:  4988 | #pragma message(                                                               \
+C/C++:       |         ^
+C/C++: 1 warning generated.
+
+> Task :feature:sdxl:buildCMakeDebug[arm64-v8a] FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':feature:sdxl:buildCMakeDebug[arm64-v8a]'.
+> com.android.ide.common.process.ProcessException: ninja: Entering directory `S:\feature\sdxl\.cxx\Debug\15t39v49\arm64-v8a'
+  [0/2] Re-checking globbed directories...
+  [1/378] cmd.exe /C "cd /D S:\feature\sdxl\.cxx\Debug\15t39v49\arm64-v8a && "C:\Program Files (x86)\Android\android-sdk\cmake\3.22.1\bin\cmake.exe" -E make_directory S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders.spv"
+  [2/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o
+  [3/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/hbm.cpp.o
+  [4/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/quants.c.o
+  [5/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o
+  [6/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o
+  [7/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+  [8/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.c.o
+  [9/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o
+  [10/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/arm/quants.c.o
+  [11/378] Creating directories for 'vulkan-shaders-gen'
+  [12/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/traits.cpp.o
+  [13/378] No download step for 'vulkan-shaders-gen'
+  [14/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/amx.cpp.o
+  [15/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+  [16/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/mmq.cpp.o
+  [17/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/vec.cpp.o
+  [18/378] Building C object stable-diffusion.cpp-build/thirdparty/CMakeFiles/zip.dir/zip.c.o
+  In file included from S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-src/thirdparty/zip.c:40:
+  S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-src/thirdparty/miniz.h:4988:9: warning: Using fopen, ftello, fseeko, stat() etc. path for file I/O - this path may not support large files. [-W#pragma-messages]
+   4988 | #pragma message(                                                               \
+        |         ^
+  1 warning generated.
+  [19/378] No update step for 'vulkan-shaders-gen'
+  [20/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/binary-ops.cpp.o
+  [21/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.cpp.o
+  [22/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/arm/repack.cpp.o
+  [23/378] No patch step for 'vulkan-shaders-gen'
+  [24/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o
+  [25/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/repack.cpp.o
+  [26/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/unary-ops.cpp.o
+  [27/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-backend-meta.cpp.o
+  [28/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ops.cpp.o
+  [29/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o
+  [30/378] Linking CXX static library stable-diffusion.cpp-build\ggml\src\libggml-base.a
+  [31/378] Linking CXX static library stable-diffusion.cpp-build\ggml\src\libggml-cpu.a
+  [32/378] Performing configure step for 'vulkan-shaders-gen'
+  FAILED: stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-stamp/vulkan-shaders-gen-configure S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-stamp/vulkan-shaders-gen-configure 
+  cmd.exe /C "cd /D S:\feature\sdxl\.cxx\Debug\15t39v49\arm64-v8a\stable-diffusion.cpp-build\ggml\src\ggml-vulkan\vulkan-shaders-gen-prefix\src\vulkan-shaders-gen-build && "C:\Program Files (x86)\Android\android-sdk\cmake\3.22.1\bin\cmake.exe" -DCMAKE_INSTALL_PREFIX=S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/Debug -DCMAKE_INSTALL_BINDIR=. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=S:/feature/sdxl/src/androidMain/cpp/windows-host-toolchain.cmake -GNinja S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-src/ggml/src/ggml-vulkan/vulkan-shaders && "C:\Program Files (x86)\Android\android-sdk\cmake\3.22.1\bin\cmake.exe" -E touch S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-stamp/vulkan-shaders-gen-configure"
+  -- The C compiler identification is MSVC 19.51.36260.0
+  -- The CXX compiler identification is MSVC 19.51.36260.0
+  -- Detecting C compiler ABI info
+  -- Detecting C compiler ABI info - done
+  -- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/18/Professional/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+  -- Detecting C compile features
+  -- Detecting C compile features - done
+  -- Detecting CXX compiler ABI info
+  CMake Error at C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/Platform/Windows-MSVC.cmake:67 (message):
+    MSVC compiler version not detected properly:
+  Call Stack (most recent call first):
+    C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/Platform/Windows-MSVC-CXX.cmake:1 (include)
+    C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/CMakeCXXInformation.cmake:48 (include)
+    S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-build/CMakeFiles/CMakeTmp/CMakeLists.txt:4 (project)
+  
+  
+  CMake Error at C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/CMakeDetermineCompilerABI.cmake:49 (try_compile):
+    Failed to configure test project build system.
+  Call Stack (most recent call first):
+    C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)
+    CMakeLists.txt:2 (project)
+  
+  
+  -- Configuring incomplete, errors occurred!
+  See also "S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-build/CMakeFiles/CMakeOutput.log".
+  ninja: build stopped: subcommand failed.
+  
+  C++ build system [build] failed while executing:
+      @echo off
+      "C:\\Program Files (x86)\\Android\\android-sdk\\cmake\\3.22.1\\bin\\ninja.exe" ^
+        -C ^
+        "S:\\feature\\sdxl\\.cxx\\Debug\\15t39v49\\arm64-v8a" ^
+        sdai_sdcpp
+    from S:\feature\sdxl
+
+* Try:
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+* Exception is:
+org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':feature:sdxl:buildCMakeDebug[arm64-v8a]'.
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.lambda$executeIfValid$1(ExecuteActionsTaskExecuter.java:130)
+	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:293)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:128)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
+	at org.gradle.api.internal.tasks.execution.ProblemsTaskPathTrackingTaskExecuter.execute(ProblemsTaskPathTrackingTaskExecuter.java:40)
+	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
+Caused by: org.gradle.internal.UncheckedException: com.android.ide.common.process.ProcessException: ninja: Entering directory `S:\feature\sdxl\.cxx\Debug\15t39v49\arm64-v8a'
+[0/2] Re-checking globbed directories...
+[1/378] cmd.exe /C "cd /D S:\feature\sdxl\.cxx\Debug\15t39v49\arm64-v8a && "C:\Program Files (x86)\Android\android-sdk\cmake\3.22.1\bin\cmake.exe" -E make_directory S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders.spv"
+[2/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o
+[3/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/hbm.cpp.o
+[4/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/quants.c.o
+[5/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o
+[6/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o
+[7/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+[8/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.c.o
+[9/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o
+[10/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/arm/quants.c.o
+[11/378] Creating directories for 'vulkan-shaders-gen'
+[12/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/traits.cpp.o
+[13/378] No download step for 'vulkan-shaders-gen'
+[14/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/amx.cpp.o
+[15/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+[16/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/mmq.cpp.o
+[17/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/vec.cpp.o
+[18/378] Building C object stable-diffusion.cpp-build/thirdparty/CMakeFiles/zip.dir/zip.c.o
+In file included from S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-src/thirdparty/zip.c:40:
+S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-src/thirdparty/miniz.h:4988:9: warning: Using fopen, ftello, fseeko, stat() etc. path for file I/O - this path may not support large files. [-W#pragma-messages]
+ 4988 | #pragma message(                                                               \
+      |         ^
+1 warning generated.
+[19/378] No update step for 'vulkan-shaders-gen'
+[20/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/binary-ops.cpp.o
+[21/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.cpp.o
+[22/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/arm/repack.cpp.o
+[23/378] No patch step for 'vulkan-shaders-gen'
+[24/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o
+[25/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/repack.cpp.o
+[26/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/unary-ops.cpp.o
+[27/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-backend-meta.cpp.o
+[28/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ops.cpp.o
+[29/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o
+[30/378] Linking CXX static library stable-diffusion.cpp-build\ggml\src\libggml-base.a
+[31/378] Linking CXX static library stable-diffusion.cpp-build\ggml\src\libggml-cpu.a
+[32/378] Performing configure step for 'vulkan-shaders-gen'
+FAILED: stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-stamp/vulkan-shaders-gen-configure S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-stamp/vulkan-shaders-gen-configure 
+cmd.exe /C "cd /D S:\feature\sdxl\.cxx\Debug\15t39v49\arm64-v8a\stable-diffusion.cpp-build\ggml\src\ggml-vulkan\vulkan-shaders-gen-prefix\src\vulkan-shaders-gen-build && "C:\Program Files (x86)\Android\android-sdk\cmake\3.22.1\bin\cmake.exe" -DCMAKE_INSTALL_PREFIX=S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/Debug -DCMAKE_INSTALL_BINDIR=. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=S:/feature/sdxl/src/androidMain/cpp/windows-host-toolchain.cmake -GNinja S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-src/ggml/src/ggml-vulkan/vulkan-shaders && "C:\Program Files (x86)\Android\android-sdk\cmake\3.22.1\bin\cmake.exe" -E touch S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-stamp/vulkan-shaders-gen-configure"
+-- The C compiler identification is MSVC 19.51.36260.0
+-- The CXX compiler identification is MSVC 19.51.36260.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/18/Professional/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+CMake Error at C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/Platform/Windows-MSVC.cmake:67 (message):
+  MSVC compiler version not detected properly:
+Call Stack (most recent call first):
+  C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/Platform/Windows-MSVC-CXX.cmake:1 (include)
+  C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/CMakeCXXInformation.cmake:48 (include)
+  S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-build/CMakeFiles/CMakeTmp/CMakeLists.txt:4 (project)
+
+
+CMake Error at C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/CMakeDetermineCompilerABI.cmake:49 (try_compile):
+  Failed to configure test project build system.
+Call Stack (most recent call first):
+  C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)
+  CMakeLists.txt:2 (project)
+
+
+-- Configuring incomplete, errors occurred!
+See also "S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-build/CMakeFiles/CMakeOutput.log".
+ninja: build stopped: subcommand failed.
+
+C++ build system [build] failed while executing:
+    @echo off
+    "C:\\Program Files (x86)\\Android\\android-sdk\\cmake\\3.22.1\\bin\\ninja.exe" ^
+      -C ^
+      "S:\\feature\\sdxl\\.cxx\\Debug\\15t39v49\\arm64-v8a" ^
+      sdai_sdcpp
+  from S:\feature\sdxl
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:69)
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:42)
+	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:128)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.doExecute(StandardTaskAction.java:58)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:51)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:29)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:244)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:30)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:27)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:48)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:229)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:212)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:195)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:162)
+	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:105)
+	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:44)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:59)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:56)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:56)
+	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:44)
+	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:42)
+	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:75)
+	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
+	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:50)
+	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:28)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:67)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:37)
+	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:61)
+	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:26)
+	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:69)
+	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:46)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:40)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:29)
+	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:189)
+	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$1(BuildCacheStep.java:75)
+	at org.gradle.internal.Either$Right.fold(Either.java:175)
+	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:62)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:73)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:48)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:46)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:35)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:75)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:53)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:53)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:35)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
+	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:49)
+	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:27)
+	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:71)
+	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:39)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:65)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:36)
+	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:107)
+	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:56)
+	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:64)
+	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)
+	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)
+	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:56)
+	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
+	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)
+	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
+	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
+	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
+	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)
+	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)
+	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
+	at org.gradle.api.internal.tasks.execution.ProblemsTaskPathTrackingTaskExecuter.execute(ProblemsTaskPathTrackingTaskExecuter.java:40)
+	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:210)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:205)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:67)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:167)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:60)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:54)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
+Caused by: com.android.ide.common.process.ProcessException: ninja: Entering directory `S:\feature\sdxl\.cxx\Debug\15t39v49\arm64-v8a'
+[0/2] Re-checking globbed directories...
+[1/378] cmd.exe /C "cd /D S:\feature\sdxl\.cxx\Debug\15t39v49\arm64-v8a && "C:\Program Files (x86)\Android\android-sdk\cmake\3.22.1\bin\cmake.exe" -E make_directory S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders.spv"
+[2/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o
+[3/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/hbm.cpp.o
+[4/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/quants.c.o
+[5/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o
+[6/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o
+[7/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+[8/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.c.o
+[9/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o
+[10/378] Building C object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/arm/quants.c.o
+[11/378] Creating directories for 'vulkan-shaders-gen'
+[12/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/traits.cpp.o
+[13/378] No download step for 'vulkan-shaders-gen'
+[14/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/amx.cpp.o
+[15/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+[16/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/mmq.cpp.o
+[17/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/vec.cpp.o
+[18/378] Building C object stable-diffusion.cpp-build/thirdparty/CMakeFiles/zip.dir/zip.c.o
+In file included from S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-src/thirdparty/zip.c:40:
+S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-src/thirdparty/miniz.h:4988:9: warning: Using fopen, ftello, fseeko, stat() etc. path for file I/O - this path may not support large files. [-W#pragma-messages]
+ 4988 | #pragma message(                                                               \
+      |         ^
+1 warning generated.
+[19/378] No update step for 'vulkan-shaders-gen'
+[20/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/binary-ops.cpp.o
+[21/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.cpp.o
+[22/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/arm/repack.cpp.o
+[23/378] No patch step for 'vulkan-shaders-gen'
+[24/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o
+[25/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/repack.cpp.o
+[26/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/unary-ops.cpp.o
+[27/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-backend-meta.cpp.o
+[28/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ops.cpp.o
+[29/378] Building CXX object stable-diffusion.cpp-build/ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o
+[30/378] Linking CXX static library stable-diffusion.cpp-build\ggml\src\libggml-base.a
+[31/378] Linking CXX static library stable-diffusion.cpp-build\ggml\src\libggml-cpu.a
+[32/378] Performing configure step for 'vulkan-shaders-gen'
+FAILED: stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-stamp/vulkan-shaders-gen-configure S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-stamp/vulkan-shaders-gen-configure 
+cmd.exe /C "cd /D S:\feature\sdxl\.cxx\Debug\15t39v49\arm64-v8a\stable-diffusion.cpp-build\ggml\src\ggml-vulkan\vulkan-shaders-gen-prefix\src\vulkan-shaders-gen-build && "C:\Program Files (x86)\Android\android-sdk\cmake\3.22.1\bin\cmake.exe" -DCMAKE_INSTALL_PREFIX=S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/Debug -DCMAKE_INSTALL_BINDIR=. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=S:/feature/sdxl/src/androidMain/cpp/windows-host-toolchain.cmake -GNinja S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-src/ggml/src/ggml-vulkan/vulkan-shaders && "C:\Program Files (x86)\Android\android-sdk\cmake\3.22.1\bin\cmake.exe" -E touch S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-stamp/vulkan-shaders-gen-configure"
+-- The C compiler identification is MSVC 19.51.36260.0
+-- The CXX compiler identification is MSVC 19.51.36260.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/18/Professional/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+CMake Error at C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/Platform/Windows-MSVC.cmake:67 (message):
+  MSVC compiler version not detected properly:
+Call Stack (most recent call first):
+  C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/Platform/Windows-MSVC-CXX.cmake:1 (include)
+  C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/CMakeCXXInformation.cmake:48 (include)
+  S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-build/CMakeFiles/CMakeTmp/CMakeLists.txt:4 (project)
+
+
+CMake Error at C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/CMakeDetermineCompilerABI.cmake:49 (try_compile):
+  Failed to configure test project build system.
+Call Stack (most recent call first):
+  C:/Program Files (x86)/Android/android-sdk/cmake/3.22.1/share/cmake-3.22/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)
+  CMakeLists.txt:2 (project)
+
+
+-- Configuring incomplete, errors occurred!
+See also "S:/feature/sdxl/.cxx/Debug/15t39v49/arm64-v8a/stable-diffusion.cpp-build/ggml/src/ggml-vulkan/vulkan-shaders-gen-prefix/src/vulkan-shaders-gen-build/CMakeFiles/CMakeOutput.log".
+ninja: build stopped: subcommand failed.
+
+C++ build system [build] failed while executing:
+    @echo off
+    "C:\\Program Files (x86)\\Android\\android-sdk\\cmake\\3.22.1\\bin\\ninja.exe" ^
+      -C ^
+      "S:\\feature\\sdxl\\.cxx\\Debug\\15t39v49\\arm64-v8a" ^
+      sdai_sdcpp
+  from S:\feature\sdxl
+	at com.android.build.gradle.internal.cxx.process.ExecuteProcessKt.execute(ExecuteProcess.kt:288)
+	at com.android.build.gradle.internal.cxx.process.ExecuteProcessKt$executeProcess$1.invoke(ExecuteProcess.kt:108)
+	at com.android.build.gradle.internal.cxx.process.ExecuteProcessKt$executeProcess$1.invoke(ExecuteProcess.kt:106)
+	at com.android.build.gradle.internal.cxx.timing.TimingEnvironmentKt.time(TimingEnvironment.kt:32)
+	at com.android.build.gradle.internal.cxx.process.ExecuteProcessKt.executeProcess(ExecuteProcess.kt:106)
+	at com.android.build.gradle.internal.cxx.process.ExecuteProcessKt.executeProcess$default(ExecuteProcess.kt:85)
+	at com.android.build.gradle.internal.cxx.build.CxxRegularBuilder.executeProcessBatch(CxxRegularBuilder.kt:332)
+	at com.android.build.gradle.internal.cxx.build.CxxRegularBuilder.build(CxxRegularBuilder.kt:129)
+	at com.android.build.gradle.tasks.ExternalNativeBuildTask.doTaskAction(ExternalNativeBuildTask.kt:72)
+	at com.android.build.gradle.internal.tasks.UnsafeOutputsTask$taskAction$$inlined$recordTaskAction$1.invoke(BaseTask.kt:78)
+	at com.android.build.gradle.internal.tasks.Blocks.recordSpan(Blocks.java:51)
+	at com.android.build.gradle.internal.tasks.UnsafeOutputsTask.taskAction(UnsafeOutputsTask.kt:81)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:125)
+	... 117 more
+Caused by: com.android.ide.common.process.ProcessException: Error while executing process "C:\Program Files (x86)\Android\android-sdk\cmake\3.22.1\bin\ninja.exe" with arguments {-C S:\feature\sdxl\.cxx\Debug\15t39v49\arm64-v8a sdai_sdcpp}
+	at com.android.build.gradle.internal.process.GradleProcessResult.buildProcessException(GradleProcessResult.java:73)
+	at com.android.build.gradle.internal.process.GradleProcessResult.assertNormalExitValue(GradleProcessResult.java:48)
+	at com.android.build.gradle.internal.cxx.process.ExecuteProcessKt.execute(ExecuteProcess.kt:277)
+	... 132 more
+Caused by: org.gradle.process.internal.ExecException: Process 'command '"C:\Program Files (x86)\Android\android-sdk\cmake\3.22.1\bin\ninja.exe"'' finished with non-zero exit value 1
+	at org.gradle.process.internal.DefaultExecHandle$ExecResultImpl.assertNormalExitValue(DefaultExecHandle.java:442)
+	at com.android.build.gradle.internal.process.GradleProcessResult.assertNormalExitValue(GradleProcessResult.java:46)
+	... 133 more
+
+
+BUILD FAILED in 2m 54s
+480 actionable tasks: 37 executed, 443 up-to-date
