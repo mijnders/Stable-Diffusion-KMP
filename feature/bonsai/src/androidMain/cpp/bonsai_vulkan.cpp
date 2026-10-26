@@ -321,7 +321,47 @@ public:
             return false;
         }
         if (!supports_sequence(views, token_count, reason)) {
-            return false;
+            if (reason != "shared_queue_token_limit") {
+                return false;
+            }
+
+            reason.clear();
+
+            // Preserve the shared-queue limit while processing larger
+            // sequences in contiguous token chunks.
+            for (uint64_t offset = 0; offset < token_count;) {
+                const uint64_t chunk_tokens = std::min<uint64_t>(
+                    SHARED_QUEUE_MAX_SEQUENCE_TOKENS,
+                    token_count - offset
+                );
+
+                if (!quantized_matvec_sequence_into(
+                        views,
+                        input + offset * views.input_values,
+                        output + offset * views.leading_rows,
+                        chunk_tokens,
+                        reason
+                    )) {
+                    return false;
+                }
+
+                offset += chunk_tokens;
+            }
+
+            static std::atomic_bool logged_chunking(false);
+            if (!logged_chunking.exchange(true)) {
+                __android_log_print(
+                    ANDROID_LOG_INFO,
+                    LOG_TAG,
+                    "phase=vulkan_sequence_chunked tokens=%llu max_chunk=%llu",
+                    static_cast<unsigned long long>(token_count),
+                    static_cast<unsigned long long>(
+                        SHARED_QUEUE_MAX_SEQUENCE_TOKENS
+                    )
+                );
+            }
+
+            return true;
         }
 
         const uint64_t scale_groups = last_dimension(views.scales);
