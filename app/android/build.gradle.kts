@@ -9,7 +9,11 @@ plugins {
 
 android {
     namespace = "com.shifthackz.aisdv1.app"
-
+    buildTypes {
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
+        }
+    }
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false
